@@ -1,29 +1,39 @@
 var directoryPromise = d3.json("classData.json");
 
-var drawPlot = function(penguins, screen, xScale, yScale){
-    d3.select("svg")
-    .selectAll("circle")
-    .data(penguins)
-    .enter()
-    .append("circle")
-    .attr("cx", hwMean)
-    .attr("cy", getFinalGrade)
-    .attr("r",  2)
-}
-
 var initGraph = function(penguins){
     var screen = {width:600, height:600}
     d3.select("svg")
     .attr("width", screen.width)
     .attr("height", screen.height)
     
+
+
 var xScale = d3.scaleLinear() 
-.domain([0,100])
+.domain([0,50])
 .range([0,screen.width])
 
 var yScale = d3.scaleLinear()
 .domain([0,100])
 .range([screen.height, 0])
+
+
+var drawPlot = function(penguins, screen, xScale, yScale){
+    d3.select("svg")
+    .selectAll("circle")
+    .data(penguins)
+    .enter()
+    .append("circle")
+    .attr("cx", function(penguin){
+        return xScale(hwMean(penguin));
+    })
+    .attr("cy", function(penguin){
+        return yScale(getFinalGrade(penguin))
+    })
+    .attr("r",  5)
+    .attr("fill", "blue")
+}
+
+    
 
 drawPlot(penguins, screen, xScale, yScale);
 
